@@ -1,7 +1,7 @@
 AiryDrive
 =========
 
-A Multi-Party Cloud Data Storage.
+A multi-party Cloud Data Storage.
 
 Features:  
 1. Sharing  
