@@ -1,10 +1,11 @@
 CREATE TABLE `tb_user` (
-  `id`        int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `email`     varchar(255) NOT NULL,
-  `name`      varchar(255) DEFAULT NULL,
-  `surname`   varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY         `key_email` (`email`)
+  `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email`	 		varchar(255) NOT NULL,
+  `email_verified` 	enum('0','1') NOT NULL DEFAULT '0',
+  `given_name` 		varchar(255) DEFAULT NULL,
+  `family_name` 	varchar(255) DEFAULT NULL,
+  PRIMARY KEY 		(`id`),
+  UNIQUE KEY 		`uk_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_user`
