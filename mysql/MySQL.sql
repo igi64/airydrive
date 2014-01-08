@@ -1,3 +1,18 @@
+CREATE TABLE `tb_session` (
+  `sid` 			varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `session` 		text COLLATE utf8_unicode_ci NOT NULL,
+  `expires` 		int(11) DEFAULT NULL,
+  PRIMARY KEY 		(`sid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `tb_oidc_provider` (
+  `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `issuer` 			varchar(255) DEFAULT NULL,
+  `configuration` 	text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY 		(`id`),
+  UNIQUE KEY 		`issuer` (`issuer`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 CREATE TABLE `tb_user` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email`	 		varchar(255) NOT NULL,
