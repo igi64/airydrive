@@ -2,11 +2,11 @@
 
 
        +--------------------+       +----------------+
-       |  tb_oidc_provider  |       |   tb_session   |
+       |  tb_oidc_issuer    |       |   tb_session   |
        +----+---------------+       +----+-----------+
        | PK | id            |       | PK | sid       |
        +----+---------------+       +----+-----------+
-       | UK | issuer        |       |    | session   |
+       | UK | name          |       |    | session   |
        +----+---------------+       |    | expires   |
        |    | configuration |       +----+-----------+
        +----+---------------+
@@ -42,9 +42,9 @@
               | FK2     | parent_id  |           |     | email_verified |           |        | mtime       |
               +---------+------------+           |     | given_name     |           |        | locked      |
               |         | content    |           |     | family_name    |           |        | hidden      |
-              |         | size       |           |     | ...            |           +--------+-------------+
-              |         | mtime      |           +-----+----------------+                       ^
-              |         | mime       |                       ^                                  |
+              |         | mime       |           |     | ...            |           +--------+-------------+
+              |         | size       |           +-----+----------------+                       ^
+              |         | mtime      |                       ^                                  |
               |         | locked     |                       |                                  |
               |         | hidden     |                       | FK1                              |
               +---------+------------+                       |                                  |
