@@ -10,7 +10,7 @@ CREATE TABLE `tb_oidc_issuer` (
   `name` 			varchar(255) DEFAULT NULL,
   `configuration` 	text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY 		(`id`),
-  UNIQUE KEY 		`issuer` (`issuer`)
+  UNIQUE KEY 		`name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `tb_user` (
@@ -24,8 +24,8 @@ CREATE TABLE `tb_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_user`
-(`id`, `email`,             `name`, `surname`) VALUES 
-('1',  'izboran@gmail.com', 'Igor', 'Zboran'); 
+(`id`, `email`,             `given_name`, `family_name`) VALUES 
+('1',  'izboran@gmail.com', 'Igor',       'Zboran'); 
 
 CREATE TABLE IF NOT EXISTS `tb_folder` (
   `id`        int(10) unsigned NOT NULL auto_increment,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `tb_file` (
   `locked`    enum('1', '0') NOT NULL default '0',
   `hidden`    enum('1', '0') NOT NULL default '0',
    PRIMARY KEY (`id`),
-   CONSTRAINT  `fk_file_user_id` FOREIGN KEY (owner_id) REFERENCES tb_user(id) ON DELETE CASCADE
+   CONSTRAINT  `fk_file_user_id` FOREIGN KEY (owner_id) REFERENCES tb_user(id) ON DELETE CASCADE,
    CONSTRAINT  `fk_file_parent_id` FOREIGN KEY (parent_id) REFERENCES tb_file(id)
 ) AUTO_INCREMENT=1000000001 ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
