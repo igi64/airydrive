@@ -6,11 +6,12 @@ var path = require('path');
 var passport = require('passport');
 var util = require('util');
 var OidcStrategy = require('passport-openidconnect').Strategy;
-var GoogleStrategy = require('passport-google').Strategy;
 var PersonaStrategy = require('passport-persona').Strategy;
+var GoogleStrategy = require('passport-google').Strategy;
+var YahooStrategy = require('passport-yahoo').Strategy;
 var SamlStrategy = require('passport-saml').Strategy;
 
-var mysql = require('mysql').createPool({ host: '192.168.100.200', port: 3306, user: 'airybox', password: 'apassword', database: 'airybox' });
+var mysql = require('mysql').createPool({ host: '192.168.100.200', port: 3306, user: 'airydrive', password: 'apassword', database: 'airydrive' });
 var MySQLStore = require('connect-mysql')(express);
 
 var UserStore = require("./user.js");
@@ -55,29 +56,6 @@ passport.use(new OidcStrategy({
   }
 ));
 
-// Use the GoogleStrategy within Passport.
-//   Strategies in passport require a `validate` function, which accept
-//   credentials (in this case, an OpenID identifier and profile), and invoke a
-//   callback with a user object.
-passport.use(new GoogleStrategy({
-    returnURL: 'http://localhost.airybox.org/auth/google/return',
-    realm: 'http://localhost.airybox.org/'
-  },
-  function(identifier, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-
-      // find or create the user based on their email address
-      User.findOrCreate({ userInfo: profile, provider: 'google' }, function(err, user) {
-        if (err)
-          console.log(err);
-        done(err, user);
-      });
-
-    });
-  }
-));
-
 // Use the PersonaStrategy within Passport.
 //   Strategies in passport require a `verify` function, which accept
 //   credentials (in this case, a BrowserID verified email address), and invoke
@@ -103,8 +81,54 @@ passport.use(new PersonaStrategy({
   }
 ));
 
+// Use the GoogleStrategy within Passport.
+//   Strategies in passport require a `validate` function, which accept
+//   credentials (in this case, an OpenID identifier and profile), and invoke a
+//   callback with a user object.
+passport.use(new GoogleStrategy({
+    returnURL: 'http://localhost.airybox.org/auth/google/login/return',
+    realm: 'http://localhost.airybox.org/'
+  },
+  function(identifier, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+
+      // find or create the user based on their email address
+      User.findOrCreate({ userInfo: profile, provider: 'google' }, function(err, user) {
+        if (err)
+          console.log(err);
+        done(err, user);
+      });
+
+    });
+  }
+));
+
+// Use the YahooStrategy within Passport.
+//   Strategies in passport require a `validate` function, which accept
+//   credentials (in this case, an OpenID identifier and profile), and invoke a
+//   callback with a user object.
+passport.use(new YahooStrategy({
+    returnURL: 'http://localhost.airybox.org/auth/yahoo/login/return',
+    realm: 'http://localhost.airybox.org/'
+  },
+  function(identifier, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+
+      // find or create the user based on their email address
+      User.findOrCreate({ userInfo: profile, provider: 'yahoo' }, function(err, user) {
+        if (err)
+          console.log(err);
+        done(err, user);
+      });
+
+    });
+  }
+));
+
 passport.use(new SamlStrategy({
-    path: '/saml/login/callback',
+    path: '/auth/saml/login/callback',
     entryPoint: 'https://openidp.feide.no/simplesaml/saml2/idp/SSOService.php',
     //issuer: 'http://localhost.airybox.org/',
     issuer: 'localhost-airybox-org-saml',
@@ -179,45 +203,53 @@ app.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });
 });
 
-app.get('/auth/oidc',  passport.authenticate('openidconnect'));
+app.get('/auth/oidc/login',  passport.authenticate('openidconnect'));
 
-app.get('/auth/oidc/callback',
-  passport.authenticate('openidconnect', { failureRedirect: '/login' }),
+app.get('/auth/oidc/login/callback',
+  passport.authenticate('openidconnect', { failureRedirect: '/' }),
   //passport.authenticate('openidconnect', { scope: ['profile', 'email'] }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
   });
 
-app.get('/auth/google',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+app.post('/auth/browserid/login',
+  passport.authenticate('persona', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');
   });
 
-app.get('/auth/google/return',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+app.get('/auth/google/login',
+  passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');
   });
 
-app.get('/persona/login', function(req, res){
-  res.render('login', { user: req.user });
-});
-
-app.post('/auth/browserid',
-  passport.authenticate('persona', { failureRedirect: '/login' }),
+app.get('/auth/google/login/return',
+  passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');
   });
 
-app.get('/saml/login',
+app.get('/auth/yahoo/login',
+  passport.authenticate('yahoo', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+app.get('/auth/yahoo/login/return',
+  passport.authenticate('yahoo', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+app.get('/auth/saml/login',
   passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
   function(req, res) {
     res.redirect('/');
   });
 
-app.post('/saml/login/callback',
+app.post('/auth/saml/login/callback',
   passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
   function(req, res) {
     res.redirect('/');

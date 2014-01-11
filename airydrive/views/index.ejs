@@ -1,5 +1,59 @@
-<% if (!user) { %>
-	<h2>Welcome! Please log in.</h2>
-<% } else { %>
-	<h2>Hello, <%= user.email %>.</h2>
-<% } %>
+<!doctype html>
+<html>
+<head>
+	<title>AiryDrive</title>
+    <script src="javascripts/jquery/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://browserid.org/include.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:80px; }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class="jumbotron text-center">
+        <h2><span class="glyphicon glyphicon-fire"></span> AiryDrive</h2>
+
+        <div class="center-block" style="width:400px">
+
+            <p>Login with:</p>
+
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <a href="/auth/oidc/login" class="btn btn-warning">OpenID Connect</a>
+                </span>
+                <input type="text" class="form-control" placeholder="Enter your email address">
+            </div>
+
+            <form action="/auth/browserid/login" method="post" style="display:none;">
+                <input type="text" name="assertion"/>
+            </form>
+            <a id="browserid" href="#" class="btn btn-info">Mozilla Persona</a>
+            <script>
+                $("#browserid").click(function(){
+                    navigator.id.get(function(assertion) {
+                        if (assertion) {
+                            $("input").val(assertion);
+                            $("form").submit();
+                        } else {
+                            location.reload();
+                        }
+                    });
+                });
+            </script>
+            <a href="/auth/google/login" class="btn btn-danger">Google</a>
+            <a href="/auth/yahoo/login" class="btn btn-primary">Yahoo</a>
+            <a href="/auth/saml/login" class="btn btn-default">SAML2</a>
+        </div>
+	</div>
+
+    <div class="text-center">
+		<p>View on <a href="https://github.com/igi64/airydrive">GitHub</a>.</p>
+	</div>
+
+</div>
+</body>
+</html>
