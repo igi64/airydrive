@@ -164,7 +164,7 @@ var app = express();
 app.set('port', process.env.PORT || 80);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(express.favicon());
+app.use(express.favicon(__dirname + '/public/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
@@ -195,18 +195,18 @@ if ('development' == app.get('env')) {
 //app.get('/', routes.index);
 //app.get('/users', user.list);
 
-app.get('/', function(req, res){
+app.get('/', ensureAuthenticated, function(req, res){
   res.render('index', { user: req.user });
 });
 
-app.get('/account', ensureAuthenticated, function(req, res){
-  res.render('account', { user: req.user });
+app.get('/login', function(req, res){
+  res.render('login', { user: req.user });
 });
 
 app.get('/auth/oidc/login',  passport.authenticate('openidconnect'));
 
 app.get('/auth/oidc/login/callback',
-  passport.authenticate('openidconnect', { failureRedirect: '/' }),
+  passport.authenticate('openidconnect', { failureRedirect: '/login' }),
   //passport.authenticate('openidconnect', { scope: ['profile', 'email'] }),
   function(req, res) {
     // Successful authentication, redirect home.
@@ -214,50 +214,50 @@ app.get('/auth/oidc/login/callback',
   });
 
 app.post('/auth/browserid/login',
-  passport.authenticate('persona', { failureRedirect: '/' }),
+  passport.authenticate('persona', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/auth/google/login',
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/auth/google/login/return',
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/auth/yahoo/login',
-  passport.authenticate('yahoo', { failureRedirect: '/' }),
+  passport.authenticate('yahoo', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/auth/yahoo/login/return',
-  passport.authenticate('yahoo', { failureRedirect: '/' }),
+  passport.authenticate('yahoo', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/auth/saml/login',
-  passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
+  passport.authenticate('saml', { failureRedirect: '/login', failureFlash: true }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.post('/auth/saml/login/callback',
-  passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
+  passport.authenticate('saml', { failureRedirect: '/login', failureFlash: true }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect('/');
+  res.redirect('/login');
 });
 
 http.createServer(app).listen(app.get('port'), function(){
