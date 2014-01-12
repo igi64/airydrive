@@ -5,7 +5,8 @@ A multi-party Cloud Data Storage.
 
 Features:  
 1. Sharing  
-2. Tagging
+2. Tagging  
+3. Versioning  
 
 Database model: https://github.com/igi64/airydrive/wiki/Database-model  
 
