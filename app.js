@@ -1,13 +1,33 @@
 var express = require('express');
 var http = require('http');
+var https = require('https');
 var path = require('path');
 var util = require('util');
+var fs = require('fs');
 var config = require('./config').config;
 var mysql = require('mysql').createPool(config.mysql);
 var MySQLStore = require('connect-mysql')(express);
 var UserStore = require("./user.js");
 
 var User = new UserStore({ client: mysql, table: 'tb_user' });
+
+var ssl_key = fs.readFileSync('keys/ssl.key');
+var ssl_cert = fs.readFileSync('keys/ssl.crt');
+var ssl_ca = fs.readFileSync('keys/signing-ca-1.crt');
+
+var ssl_options = {
+  key: ssl_key,
+  cert: ssl_cert,
+  ca: ssl_ca
+};
+
+var appredirect = express();
+
+appredirect.configure(function() {
+  appredirect.set('port', process.env.PORT || 80);
+  appredirect.use(express.favicon(__dirname + '/public/favicon.ico'));
+  appredirect.use(appredirect.router);
+});
 
 var app = express();
 
@@ -36,8 +56,6 @@ app.use(express.session({
   },
   rolling : true
 }));
-// Initialize Passport!  Also use passport.session() middleware, to support
-// persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
@@ -50,6 +68,20 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+appredirect.get('*', function(req, res) {
+  res.redirect(config.server.base_url() + req.url)
 });
+
+if (config.server.secure) {
+  http.createServer(appredirect).listen(appredirect.get('port'), function(){
+    console.log('Express server listening on port ' + appredirect.get('port'));
+  });
+
+  https.createServer(ssl_options, app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });
+} else {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+  });
+}

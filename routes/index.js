@@ -1,23 +1,10 @@
-var fs = require('fs');
-
 module.exports = function(app){
 
   require('./auth.js')(app);
+  require('./auth-openidconnect.js')(app);
+  require('./auth-persona.js')(app);
+  require('./auth-google.js')(app);
+  require('./auth-yahoo.js')(app);
+  require('./auth-saml.js')(app);
 
-  var handleFile = function(route, file) {
-    if (file == "index.js") return;
-    if (file == "auth.js") return;
-    if (file.indexOf('swp') >= 0) return;
-    if (file.indexOf('~') >= 0) return;
-
-    var name = file.substr(0, file.indexOf('.'));
-    if (name != '') {
-      if (route != null) {
-        name = route + "/" + name;
-      }
-      require('./' + name)(app);
-    }
-  };
-
-  fs.readdirSync(__dirname).forEach(function(file) {handleFile(null, file);});
 };

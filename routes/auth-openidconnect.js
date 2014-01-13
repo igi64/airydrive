@@ -20,7 +20,7 @@ module.exports = function(app) {
       process.nextTick(function () {
 
         // find or create the user based on their email address
-        User.findOrCreate({ userInfo: profile, provider: 'openidconnect' }, function(err, user) {
+        app.user.findOrCreate({ userInfo: profile, provider: 'openidconnect' }, function(err, user) {
           if (err)
             console.log(err);
           done(err, user);
