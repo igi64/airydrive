@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "airydrive",
   "version": "0.0.2",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
     "passport": ">= 0.0.0",
     "passport-persona": ">= 0.0.0",
     "passport-google": ">= 0.0.0",
+    "passport-yahoo": ">= 0.0.0",
     "passport-saml": ">= 0.0.0",
     "mysql": "*",
     "connect-mysql": ">= 0.0.0"
