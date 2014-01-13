@@ -24,22 +24,18 @@ body {
     background-size: 16px 16px;
 }
 
-/* Browsers who don't support gradients */
-.no-cssgradients body {
-    background-image: url(images/bg.png);
-    background-repeat: repeat;
-    background-attachment: fixed;
-}
-
 #main {
     background: rgba(50, 104, 155, .1);
 }
 
-/* No support for rgba */
-.no-rgba #main {
-    background: url(images/content_bg.png) repeat;
+#navigation {
+    text-align: left; margin: 10px;
 }
 
-/*a {
-  color: #00B7FF;
-}*/
+#title {
+    text-align: center;
+}
+
+#user {
+    text-align: right; margin: 10px;
+}

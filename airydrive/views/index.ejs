@@ -7,16 +7,11 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/style.css"/>
-    <style>
-        #user       { text-align: right; margin: 10px; }
-        #headline   { text-align: center; }
-        #navigation { text-align: left; margin: 10px; }
-    </style>
 </head>
 <body>
 <div class="row">
     <div class="col-xs-4"></div>
-    <div class="col-xs-4"><h2 id="headline"><span class="glyphicon glyphicon-fire"></span> AiryDrive</h2></div>
+    <div class="col-xs-4"><h2 id="title"><span class="glyphicon glyphicon-fire"></span> AiryDrive</h2></div>
     <div class="col-xs-4">
         <% if (user) { %>
             <div id="user"><%= user.email %> &nbsp;<a href="/logout" class="navbar-link">Sign out</a></div>
