@@ -51,7 +51,6 @@ app.use(express.session({
   store: new MySQLStore({ client: mysql, table: 'tb_session' }),
   cookie: {
     secure: (config.server.secure ? true : false),
-    //expires: new Date(Date.now() + 60 * 5000), //5 minutes
     maxAge: 60*5000 //5 minutes
   },
   rolling : true
@@ -74,14 +73,14 @@ appredirect.get('*', function(req, res) {
 
 if (config.server.secure) {
   http.createServer(appredirect).listen(appredirect.get('port'), function(){
-    console.log('Express server listening on port ' + appredirect.get('port'));
+    console.log('Express http server listening on port ' + appredirect.get('port'));
   });
 
   https.createServer(ssl_options, app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
+    console.log('Express https server listening on port ' + app.get('port'));
   });
 } else {
   http.createServer(app).listen(app.get('port'), function(){
-    console.log("Express server listening on port " + app.get('port'));
+    console.log("Express http server listening on port " + app.get('port'));
   });
 }

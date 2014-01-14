@@ -11,6 +11,13 @@ passport.deserializeUser(function(obj, done) {
 
 module.exports = function(app) {
 
+  var options = {};
+  options.name = app.config.oidc.client_name;
+  options.redirectURI = [];
+  options.redirectURI.push(app.config.server.base_url() + '/auth/oidc/login/callback');
+  var registration = require('passport-openidconnect').registration(options);
+  require('passport-openidconnect').register(registration);
+
   passport.use(new OpenidConnectStrategy({
       identifierField: 'resource',
       scope: 'profile email'
@@ -30,11 +37,14 @@ module.exports = function(app) {
     }
   ));
 
-  app.get('/auth/oidc/login',  passport.authenticate('openidconnect'));
+  app.get('/auth/oidc/login', passport.authenticate('openidconnect', {failureRedirect: '/login'}),
+    function(req, res){
+      // The request will be redirected to OIDC provider for authentication, so this
+      // function will not be called.
+    });
 
   app.get('/auth/oidc/login/callback',
     passport.authenticate('openidconnect', { failureRedirect: '/login' }),
-    //passport.authenticate('openidconnect', { scope: ['profile', 'email'] }),
     function(req, res) {
       // Successful authentication, redirect home.
       res.redirect('/');

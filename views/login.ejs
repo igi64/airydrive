@@ -31,12 +31,14 @@
 
             <p>Login with:</p>
 
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <a href="/auth/oidc/login" class="btn btn-warning">OpenID Connect</a>
-                </span>
-                <input type="text" class="form-control" placeholder="Enter your email address">
-            </div>
+            <form action="/auth/oidc/login">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <input type="submit" class="btn btn-warning" value="OpenID Connect" />
+                    </span>
+                    <input name="resource" type="text" class="form-control" placeholder="Enter your email address"/>
+                </div>
+            </form>
 
             <form action="/auth/browserid/login" method="post" style="display:none;">
                 <input type="text" name="assertion"/>
