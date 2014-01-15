@@ -16,10 +16,12 @@ CREATE TABLE `tb_oidc_issuer` (
 CREATE TABLE `tb_user` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
   `oidc_id`         int(10) unsigned DEFAULT NULL,
+  `oidc_sub`	 	varchar(255) DEFAULT NULL,
   `email`	 		varchar(255) NOT NULL,
   `email_verified` 	enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY 		(`id`),
-  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (oidc_id) REFERENCES tb_oidc_issuer(id), /* ON DELETE SET oidc_id TO NULL*/
+  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (oidc_id) REFERENCES tb_oidc_issuer(id), /* ON DELETE SET oidc_id and oidc_sub TO NULL*/
+  UNIQUE KEY 	   `uk_oidc_id_sub` (`oidc_id`, `oidc_sub`),
   UNIQUE KEY 	   `uk_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
