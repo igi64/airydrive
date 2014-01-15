@@ -1,9 +1,9 @@
 CREATE TABLE `tb_session` (
-  `sid` 			varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `session` 		text COLLATE utf8_unicode_ci NOT NULL,
+  `sid` 			varchar(255) NOT NULL,
+  `session` 		text NOT NULL,
   `expires` 		int(11) DEFAULT NULL,
   PRIMARY KEY 		(`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `tb_oidc_issuer` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -15,17 +15,32 @@ CREATE TABLE `tb_oidc_issuer` (
 
 CREATE TABLE `tb_user` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `oidc_id`         int(10) unsigned DEFAULT NULL,
   `email`	 		varchar(255) NOT NULL,
   `email_verified` 	enum('0','1') NOT NULL DEFAULT '0',
-  `given_name` 		varchar(255) DEFAULT NULL,
-  `family_name` 	varchar(255) DEFAULT NULL,
   PRIMARY KEY 		(`id`),
-  UNIQUE KEY 		`uk_email` (`email`)
+  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (oidc_id) REFERENCES tb_oidc_issuer(id), /* ON DELETE SET oidc_id TO NULL*/
+  UNIQUE KEY 	   `uk_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_user`
-(`id`, `email`,             `given_name`, `family_name`) VALUES 
-('1',  'izboran@gmail.com', 'Igor',       'Zboran'); 
+(`id`, `email`            ) VALUES 
+('1',  'izboran@gmail.com'); 
+
+CREATE TABLE `tb_user_info` (
+  `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id`         int(10) unsigned NOT NULL,
+  `provider`        varchar(255) NOT NULL,
+  `given_name` 		varchar(255) DEFAULT NULL,
+  `family_name` 	varchar(255) DEFAULT NULL,
+  PRIMARY KEY 		(`id`),
+  CONSTRAINT       `fk_user_info_user_id` FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+  UNIQUE KEY 	   `uk_user_provider` (`user_id`, `provider`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO `tb_user_info`
+(`id`, `user_id`, `provider`, `given_name`, `family_name`) VALUES 
+('1',  '1',       'google',   'Igor',       'Zboran'); 
 
 CREATE TABLE IF NOT EXISTS `tb_folder` (
   `id`        int(10) unsigned NOT NULL auto_increment,
