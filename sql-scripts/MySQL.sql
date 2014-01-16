@@ -41,7 +41,6 @@ CREATE TABLE `tb_oidc_self_issued` (
   `issuer_id`       int(10) unsigned NOT NULL,
   `sub`     	 	varchar(255) NOT NULL,
   `sub_jwk`	 		text COLLATE utf8_unicode_ci NOT NULL,
-  `issuer_verified` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY 		(`id`),
   CONSTRAINT        `fk_oidc_self_issued_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc_issuer(id),
   UNIQUE KEY 	    `uk_sub` (`sub`)
@@ -62,6 +61,14 @@ CREATE TABLE `tb_user` (
 INSERT INTO `tb_user`
 (`id`, `email`            ) VALUES 
 ('1',  'izboran@gmail.com'); 
+
+CREATE TABLE `tb_oidc_self_issued_verified` (
+  `self_issued_id` int(10) unsigned NOT NULL,
+  `user_id`        int(10) unsigned NOT NULL,
+  PRIMARY KEY 	   (`self_issued_id`, `user_id`),
+  CONSTRAINT       `fk1_oidc_issuer_id` FOREIGN KEY (self_issued_id) REFERENCES tb_oidc_self_issued(id),
+  CONSTRAINT       `fk2_user_id` FOREIGN KEY (user_id) REFERENCES tb_user(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `tb_user_info` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
