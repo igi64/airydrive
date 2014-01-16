@@ -13,16 +13,50 @@ CREATE TABLE `tb_oidc_issuer` (
   UNIQUE KEY 		`name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+INSERT INTO `tb_oidc_issuer`
+(`id`, `name`,                    `configuration`) VALUES 
+('1',  'https://self-issued.me',  '
+{
+   "authorization_endpoint":
+     "openid:",
+   "issuer":
+     "https://self-issued.me",
+   "scopes_supported":
+     ["openid", "profile", "email", "address", "phone"],
+   "response_types_supported":
+     ["id_token"],
+   "subject_types_supported":
+     ["pairwise"],
+   "id_token_signing_alg_values_supported":
+     ["RS256"],
+   "request_object_signing_alg_values_supported":
+     ["none", "RS256"],
+   "registration_endpoint":
+     "https://self-issued.me/connect/register.php"
+  }
+'); 
+
+CREATE TABLE `tb_oidc_self_issued` (
+  `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `issuer_id`       int(10) unsigned NOT NULL,
+  `sub`     	 	varchar(255) NOT NULL,
+  `sub_jwk`	 		text COLLATE utf8_unicode_ci NOT NULL,
+  `issuer_verified` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY 		(`id`),
+  CONSTRAINT        `fk_oidc_self_issued_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc_issuer(id),
+  UNIQUE KEY 	    `uk_sub` (`sub`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 CREATE TABLE `tb_user` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `oidc_id`         int(10) unsigned DEFAULT NULL,
-  `oidc_sub`	 	varchar(255) DEFAULT NULL,
+  `issuer_id`       int(10) unsigned DEFAULT NULL,
+  `sub`	        	varchar(255) DEFAULT NULL,
   `email`	 		varchar(255) NOT NULL,
   `email_verified` 	enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY 		(`id`),
-  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (oidc_id) REFERENCES tb_oidc_issuer(id), /* ON DELETE SET oidc_id and oidc_sub TO NULL*/
-  UNIQUE KEY 	   `uk_oidc_id_sub` (`oidc_id`, `oidc_sub`),
-  UNIQUE KEY 	   `uk_email` (`email`)
+  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc_issuer(id), /* ON DELETE SET issuer_id and sub TO NULL*/
+  UNIQUE KEY 	   `uk1_sub` (`issuer_id`, `sub`),
+  UNIQUE KEY 	   `uk2_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_user`
@@ -93,8 +127,8 @@ CREATE TABLE IF NOT EXISTS `tb_file` (
   `locked`    enum('1', '0') NOT NULL default '0',
   `hidden`    enum('1', '0') NOT NULL default '0',
    PRIMARY KEY (`id`),
-   CONSTRAINT  `fk_file_user_id` FOREIGN KEY (owner_id) REFERENCES tb_user(id) ON DELETE CASCADE,
-   CONSTRAINT  `fk_file_parent_id` FOREIGN KEY (parent_id) REFERENCES tb_file(id)
+   CONSTRAINT  `fk1_file_user_id` FOREIGN KEY (owner_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+   CONSTRAINT  `fk2_file_parent_id` FOREIGN KEY (parent_id) REFERENCES tb_file(id)
 ) AUTO_INCREMENT=1000000001 ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_file`
@@ -142,9 +176,9 @@ CREATE TABLE IF NOT EXISTS `tb_folder_link` (
   `write`     enum('1', '0') NOT NULL default '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY  `uk_user_parent_name` (`user_id`, `parent_id`, `name`),
-  CONSTRAINT  `fk_folder_link_user_id` FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
-  CONSTRAINT  `fk_folder_link_parent_id` FOREIGN KEY (parent_id) REFERENCES tb_folder(id) ON DELETE CASCADE,
-  CONSTRAINT  `fk_folder_link_folder_id` FOREIGN KEY (folder_id) REFERENCES tb_folder(id) ON DELETE CASCADE
+  CONSTRAINT  `fk1_folder_link_user_id` FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+  CONSTRAINT  `fk2_folder_link_parent_id` FOREIGN KEY (parent_id) REFERENCES tb_folder(id) ON DELETE CASCADE,
+  CONSTRAINT  `fk3_folder_link_folder_id` FOREIGN KEY (folder_id) REFERENCES tb_folder(id) ON DELETE CASCADE
 ) AUTO_INCREMENT=1001 ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_folder_link`
@@ -186,9 +220,9 @@ CREATE TABLE `tb_file_link` (
   `write`     enum('1', '0') NOT NULL default '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY  `uk_user_parent_name` (`user_id`, `parent_id`, `name`),
-  CONSTRAINT  `fk_file_link_user_id` FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
-  CONSTRAINT  `fk_file_link_parent_id` FOREIGN KEY (parent_id) REFERENCES tb_folder(id) ON DELETE CASCADE,
-  CONSTRAINT  `fk_file_link_file_id` FOREIGN KEY (file_id) REFERENCES tb_file(id) ON DELETE CASCADE
+  CONSTRAINT  `fk1_file_link_user_id` FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+  CONSTRAINT  `fk2_file_link_parent_id` FOREIGN KEY (parent_id) REFERENCES tb_folder(id) ON DELETE CASCADE,
+  CONSTRAINT  `fk3_file_link_file_id` FOREIGN KEY (file_id) REFERENCES tb_file(id) ON DELETE CASCADE
 ) AUTO_INCREMENT=1000001001 ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_file_link`
