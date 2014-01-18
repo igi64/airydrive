@@ -5,17 +5,18 @@ CREATE TABLE `tb_session` (
   PRIMARY KEY 		(`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE `tb_oidc_issuer` (
+CREATE TABLE `tb_oidc` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` 			varchar(255) DEFAULT NULL,
+  `issuer` 			varchar(255) DEFAULT NULL,
+  `provider`     	text COLLATE utf8_unicode_ci NOT NULL,
   `configuration` 	text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY 		(`id`),
-  UNIQUE KEY 		`name` (`name`)
+  UNIQUE KEY 		`issuer` (`issuer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `tb_oidc_issuer`
-(`id`, `name`,                    `configuration`) VALUES 
-('1',  'https://self-issued.me',  '
+INSERT INTO `tb_oidc`
+(`id`, `issuer`,                 `provider`, `configuration`) VALUES 
+('1',  'https://self-issued.me', '
 {
    "authorization_endpoint":
      "openid:",
@@ -33,8 +34,11 @@ INSERT INTO `tb_oidc_issuer`
      ["none", "RS256"],
    "registration_endpoint":
      "https://self-issued.me/connect/register.php"
-  }
-'); 
+  }',
+  '{
+  
+  }'
+); 
 
 CREATE TABLE `tb_oidc_self_issued` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -42,7 +46,7 @@ CREATE TABLE `tb_oidc_self_issued` (
   `sub`     	 	varchar(255) NOT NULL,
   `sub_jwk`	 		text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY 		(`id`),
-  CONSTRAINT        `fk_oidc_self_issued_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc_issuer(id),
+  CONSTRAINT        `fk_oidc_self_issued_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc(id),
   UNIQUE KEY 	    `uk_sub` (`sub`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -53,7 +57,7 @@ CREATE TABLE `tb_user` (
   `email`	 		varchar(255) NOT NULL,
   `email_verified` 	enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY 		(`id`),
-  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc_issuer(id), /* ON DELETE SET issuer_id and sub TO NULL*/
+  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc(id), /* ON DELETE SET issuer_id and sub TO NULL*/
   UNIQUE KEY 	   `uk1_sub` (`issuer_id`, `sub`),
   UNIQUE KEY 	   `uk2_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
