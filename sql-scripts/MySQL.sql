@@ -9,13 +9,13 @@ CREATE TABLE `tb_oidc` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
   `issuer` 			varchar(255) DEFAULT NULL,
   `provider`     	text COLLATE utf8_unicode_ci NOT NULL,
-  `configuration` 	text COLLATE utf8_unicode_ci NOT NULL,
+  `registration` 	text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY 		(`id`),
   UNIQUE KEY 		`issuer` (`issuer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `tb_oidc`
-(`id`, `issuer`,                 `provider`, `configuration`) VALUES 
+(`id`, `issuer`,                 `provider`, `registration`) VALUES 
 ('1',  'https://self-issued.me', '
 {
    "authorization_endpoint":
