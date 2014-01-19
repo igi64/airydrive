@@ -9,7 +9,7 @@ var mysql = require('mysql').createPool(config.mysql);
 var MySQLStore = require('connect-mysql')(express);
 var UserStore = require("./user.js");
 
-var User = new UserStore({ client: mysql, table: 'tb_user' });
+var User = new UserStore({ client: mysql, tables: ['tb_user', 'tb_user_info'] });
 
 var ssl_key = fs.readFileSync('keys/ssl.key');
 var ssl_cert = fs.readFileSync('keys/ssl.crt');
