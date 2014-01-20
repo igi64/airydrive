@@ -29,8 +29,8 @@ INSERT INTO `tb_user`
 ('1',  'izboran@gmail.com'); 
 
 INSERT INTO `tb_user_info`
-(`id`, `user_id`, `provider`, `given_name`, `family_name`) VALUES 
-('1',  '1',       'google',   'Igor',       'Zboran'); 
+(`id`, `user_id`, `provider`, `display_name`, `given_name`, `family_name`) VALUES 
+('1',  '1',       'google',   'Igor Zboran',  'Igor',       'Zboran'); 
 
 INSERT INTO `tb_folder`
 (`id`, `owner_id`, `mtime`,      `locked`, `hidden`) VALUES 
