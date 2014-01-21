@@ -16,23 +16,23 @@ CREATE TABLE `tb_oidc` (
 
 CREATE TABLE `tb_oidc_self_issued` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `issuer_id`       int(10) unsigned NOT NULL,
+  `oidc_id`         int(10) unsigned NOT NULL,
   `sub`     	 	varchar(255) NOT NULL,
   `sub_jwk`	 		text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY 		(`id`),
-  CONSTRAINT        `fk_oidc_self_issued_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc(id),
+  CONSTRAINT        `fk_oidc_self_issued_oidc_id` FOREIGN KEY (oidc_id) REFERENCES tb_oidc(id),
   UNIQUE KEY 	    `uk_sub` (`sub`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `tb_user` (
   `id`		 		int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `issuer_id`       int(10) unsigned DEFAULT NULL,
+  `oidc_id`         int(10) unsigned DEFAULT NULL,
   `sub`	        	varchar(255) DEFAULT NULL,
   `email`	 		varchar(255) NOT NULL,
   `email_verified` 	enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY 		(`id`),
-  CONSTRAINT       `fk_user_oidc_issuer_id` FOREIGN KEY (issuer_id) REFERENCES tb_oidc(id), /* ON DELETE SET issuer_id and sub TO NULL*/
-  UNIQUE KEY 	   `uk1_sub` (`issuer_id`, `sub`),
+  CONSTRAINT       `fk_user_oidc_id` FOREIGN KEY (oidc_id) REFERENCES tb_oidc(id), /* ON DELETE SET oidc_id and sub TO NULL*/
+  UNIQUE KEY 	   `uk1_sub` (`oidc_id`, `sub`),
   UNIQUE KEY 	   `uk2_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -40,7 +40,7 @@ CREATE TABLE `tb_oidc_self_issued_verified` (
   `self_issued_id` int(10) unsigned NOT NULL,
   `user_id`        int(10) unsigned NOT NULL,
   PRIMARY KEY 	   (`self_issued_id`, `user_id`),
-  CONSTRAINT       `fk1_oidc_issuer_id` FOREIGN KEY (self_issued_id) REFERENCES tb_oidc_self_issued(id),
+  CONSTRAINT       `fk1_oidc_self_issued_id` FOREIGN KEY (self_issued_id) REFERENCES tb_oidc_self_issued(id),
   CONSTRAINT       `fk2_user_id` FOREIGN KEY (user_id) REFERENCES tb_user(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
