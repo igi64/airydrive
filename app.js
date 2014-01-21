@@ -8,8 +8,10 @@ var config = require('./config').config;
 var mysql = require('mysql').createPool(config.mysql);
 var MySQLStore = require('connect-mysql')(express);
 var UserStore = require("./user.js");
+var OidcStore = require("./oidc.js");
 
-var User = new UserStore({ client: mysql, tables: ['tb_user', 'tb_user_info'] });
+var User = new UserStore({ client: mysql, tables: ['tb_user', 'tb_user_info', 'tb_oidc'] });
+var Oidc = new OidcStore({ client: mysql, tables: ['tb_oidc', 'tb_user'] });
 
 var ssl_key = fs.readFileSync('keys/ssl.key');
 var ssl_cert = fs.readFileSync('keys/ssl.crt');
@@ -21,12 +23,12 @@ var ssl_options = {
   ca: ssl_ca
 };
 
-var appredirect = express();
+var app_redirect = express();
 
-appredirect.configure(function() {
-  appredirect.set('port', process.env.PORT || 80);
-  appredirect.use(express.favicon(__dirname + '/public/favicon.ico'));
-  appredirect.use(appredirect.router);
+app_redirect.configure(function() {
+  app_redirect.set('port', process.env.PORT || 80);
+  app_redirect.use(express.favicon(__dirname + '/public/favicon.ico'));
+  app_redirect.use(app_redirect.router);
 });
 
 var app = express();
@@ -34,7 +36,8 @@ var app = express();
 var passport = require('passport');
 
 app.config = config;
-app.user = User;
+app.User = User;
+app.Oidc = Oidc;
 
 // all environments
 app.set('port', process.env.PORT || (config.server.secure ? 443 : 80));
@@ -62,18 +65,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var routes = require('./routes')(app);
 
+app.use(function(req, res) {
+  res.render('403.ejs', {title: '403: Forbidden'});
+});
+
+app.use(function(req, res) {
+  res.render('404.ejs', {title: '404: Page Not Found'});
+});
+
+app.use(function(error, req, res, next) {
+  res.render('500.ejs', {title:'500: Internal Server Error', error: error});
+});
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-appredirect.get('*', function(req, res) {
+app_redirect.get('*', function(req, res) {
   res.redirect(config.server.base_url() + req.url)
 });
 
 if (config.server.secure) {
-  http.createServer(appredirect).listen(appredirect.get('port'), function(){
-    console.log('Express http server listening on port ' + appredirect.get('port'));
+  http.createServer(app_redirect).listen(app_redirect.get('port'), function(){
+    console.log('Express http server listening on port ' + app_redirect.get('port'));
   });
 
   https.createServer(ssl_options, app).listen(app.get('port'), function(){

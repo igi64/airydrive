@@ -18,11 +18,10 @@ module.exports = function(app) {
       // asynchronous verification, for effect...
       process.nextTick(function () {
 
-        var profile = {userInfo: {emails: []}};
-        profile.userInfo.emails.push({value: email});
+        var userInfo = {email: email};
 
         // find or create the user based on their email address
-        app.user.findOrCreate({ userInfo: profile.userInfo, provider: 'persona' }, function(err, user) {
+        app.User.findOrCreate(null, null, userInfo, 'persona', function(err, user) {
           if (err)
             console.log(err);
           done(err, user);
