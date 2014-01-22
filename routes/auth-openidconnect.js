@@ -17,7 +17,8 @@ passport.deserializeUser(function(obj, done) {
 module.exports = function(app) {
   CLIENT_NAME = app.config.oidc.client_name;
   CALLBACK_URL = '/auth/oidc/callback';
-  REDIRECT_URIS = [app.config.server.base_url() + CALLBACK_URL];
+  REDIRECT_URI = app.config.server.base_url() + CALLBACK_URL;
+  REDIRECT_URIS = [REDIRECT_URI];
 
   function saveConfig(provider, reg, next) {
     app.Oidc.saveConfig(provider, reg, function(err) {
@@ -68,16 +69,15 @@ module.exports = function(app) {
   var registration = require('passport-openidconnect').registration(options, saveConfig);
   require('passport-openidconnect').register(registration);
 
-
   app.get('/auth/oidc/login', passport.authenticate('openidconnect',
-    {callbackURL: CALLBACK_URL, failureRedirect: '/login'}),
+    {callbackURL: REDIRECT_URI, failureRedirect: '/login'}),
     function(req, res){
       // The request will be redirected to OIDC provider for authentication, so this
       // function will not be called.
     });
 
   app.get(CALLBACK_URL, passport.authenticate('openidconnect',
-    {callbackURL: CALLBACK_URL, failureRedirect: '/login'}),
+    {callbackURL: REDIRECT_URI, failureRedirect: '/login'}),
     function(req, res) {
       // Successful authentication, redirect home.
       res.redirect('/');

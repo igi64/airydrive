@@ -13,20 +13,22 @@ var OidcStore = require("./oidc.js");
 var User = new UserStore({ client: mysql, tables: ['tb_user', 'tb_user_info', 'tb_oidc'] });
 var Oidc = new OidcStore({ client: mysql, tables: ['tb_oidc', 'tb_user'] });
 
-var ssl_key = fs.readFileSync('keys/ssl.key');
-var ssl_cert = fs.readFileSync('keys/ssl.crt');
-var ssl_ca = fs.readFileSync('keys/signing-ca-1.crt');
+var ssl_options = new Object();
 
-var ssl_options = {
-  key: ssl_key,
-  cert: ssl_cert,
-  ca: ssl_ca
-};
+if (config.server.secure) {
+  var ssl_key = fs.readFileSync('keys/ssl.key');
+  var ssl_cert = fs.readFileSync('keys/ssl.crt');
+  var ssl_ca = fs.readFileSync('keys/signing-ca-1.crt');
+
+  ssl_options.key = ssl_key;
+  ssl_options.cert = ssl_cert;
+  ssl_options.ca = ssl_ca;
+}
 
 var app_redirect = express();
 
 app_redirect.configure(function() {
-  app_redirect.set('port', process.env.PORT || 80);
+  app_redirect.set('port', process.env.PORT || config.server.http_port);
   app_redirect.use(express.favicon(__dirname + '/public/favicon.ico'));
   app_redirect.use(app_redirect.router);
 });
@@ -40,7 +42,7 @@ app.User = User;
 app.Oidc = Oidc;
 
 // all environments
-app.set('port', process.env.PORT || (config.server.secure ? 443 : 80));
+app.set('port', process.env.PORT || (config.server.secure ? config.server.https_port : config.server.http_port));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon(__dirname + '/public/favicon.ico'));

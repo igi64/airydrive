@@ -1,6 +1,8 @@
 exports.config = {
   server: {
     secure: false,
+    http_port: 80,
+    https_port: 443,
     host: 'localhost.airydrive.org',
     cookie_parser: 'your cookie secret here',
     session_secret: 'your session secret here',
