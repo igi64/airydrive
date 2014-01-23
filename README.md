@@ -1,7 +1,7 @@
 ~ AiryDrive
 ===========
 
-A multi-party Cloud Data Storage.
+The multi-party Cloud Storage.
 
 Features:  
 1. Sharing  
@@ -10,4 +10,4 @@ Features:
 
 Database model: https://github.com/igi64/airydrive/wiki/Database-model  
 
-AiryDrive will be fully open sourced in January, 2014.
+AiryDrive will be fully open sourced in February, 2014.
