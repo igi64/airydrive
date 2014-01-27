@@ -39,3 +39,7 @@ body {
 #user {
     text-align: right; margin: 10px;
 }
+
+#finder-block {
+    padding-bottom: 30px;
+}

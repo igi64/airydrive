@@ -241,7 +241,7 @@ $opts = array(
 	),
 	'debug' => true,
 	'roots' => array(
-		/*array(
+		array(
 			'driver'     => 'LocalFileSystem',
 			'path'       => '../files/',
 			// 'startPath'  => '../files/test/',
@@ -270,7 +270,7 @@ $opts = array(
 				)
 			)
 			// 'uploadDeny' => array('application', 'text/xml')
-		),*/
+		),
 		// array(
 		// 	'driver'     => 'LocalFileSystem',
 		// 	'path'       => '../files2/',
@@ -366,9 +366,9 @@ $opts = array(
 		 	// 'treeDeep' => 2,
 		 	// 'socket'          => '/opt/local/var/run/mysql5/mysqld.sock',
             'host'   => '192.168.100.200',
-		 	'user' => 'airybox',
+		 	'user' => 'airydrive',
 		 	'pass' => 'apassword',
-		 	'db' => 'airybox',
+		 	'db' => 'airydrive',
             'files_table' => 'vw_folder_file',
             /*'user' => 'elfinder',
             'pass' => 'apassword',
@@ -448,8 +448,9 @@ if (isset($_GET['user_id'])) {
 	$user_id = $_GET['user_id'];
 }
 
+// development only
 if (empty($user_id)) {
-    $user_id = '1'; // '1' for test
+    $user_id = '1';
 };
 
 if (!empty($user_id)) {

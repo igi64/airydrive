@@ -1,3 +1,4 @@
 # Node.js
+priv/*
 node_modules/*
 !/node_modules/passport-openidconnect

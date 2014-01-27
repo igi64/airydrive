@@ -56,7 +56,7 @@ app.use(express.session({
   store: new MySQLStore({ client: mysql, table: 'tb_session' }),
   cookie: {
     secure: (config.server.secure ? true : false),
-    maxAge: 60*5000 //5 minutes
+    maxAge: 60*60000 //60 minutes
   },
   rolling : true
 }));

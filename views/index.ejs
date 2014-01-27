@@ -2,16 +2,189 @@
 <html>
 <head>
 	<title>AiryDrive</title>
-    <script src="javascripts/jquery/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/jquery/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="javascripts/jquery/jquery-ui-1.10.1.custom.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="javascripts/jquery/ui-themes/smoothness/jquery-ui-1.10.1.custom.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/style.css" type="text/css"/>
+
+    <script src="javascripts/jquery/jquery.ui.touch-punch.js"></script>
+
+    <link rel="stylesheet" href="stylesheets/common.css"      type="text/css">
+    <link rel="stylesheet" href="stylesheets/dialog.css"      type="text/css">
+    <link rel="stylesheet" href="stylesheets/toolbar.css"     type="text/css">
+    <link rel="stylesheet" href="stylesheets/navbar.css"      type="text/css">
+    <link rel="stylesheet" href="stylesheets/statusbar.css"   type="text/css">
+    <link rel="stylesheet" href="stylesheets/contextmenu.css" type="text/css">
+    <link rel="stylesheet" href="stylesheets/cwd.css"         type="text/css">
+    <link rel="stylesheet" href="stylesheets/quicklook.css"   type="text/css">
+    <link rel="stylesheet" href="stylesheets/commands.css"    type="text/css">
+
+    <link rel="stylesheet" href="stylesheets/fonts.css"       type="text/css">
+    <link rel="stylesheet" href="stylesheets/theme.css"       type="text/css">
+
+    <!-- elfinder core -->
+    <script src="javascripts/js/elFinder.js"></script>
+    <script src="javascripts/js/elFinder.version.js"></script>
+    <script src="javascripts/js/jquery.elfinder.js"></script>
+    <script src="javascripts/js/elFinder.resources.js"></script>
+    <script src="javascripts/js/elFinder.options.js"></script>
+    <script src="javascripts/js/elFinder.history.js"></script>
+    <script src="javascripts/js/elFinder.command.js"></script>
+
+    <!-- elfinder ui -->
+    <script src="javascripts/js/ui/overlay.js"></script>
+    <script src="javascripts/js/ui/workzone.js"></script>
+    <script src="javascripts/js/ui/navbar.js"></script>
+    <script src="javascripts/js/ui/dialog.js"></script>
+    <script src="javascripts/js/ui/tree.js"></script>
+    <script src="javascripts/js/ui/cwd.js"></script>
+    <script src="javascripts/js/ui/toolbar.js"></script>
+    <script src="javascripts/js/ui/button.js"></script>
+    <script src="javascripts/js/ui/uploadButton.js"></script>
+    <script src="javascripts/js/ui/viewbutton.js"></script>
+    <script src="javascripts/js/ui/searchbutton.js"></script>
+    <script src="javascripts/js/ui/sortbutton.js"></script>
+    <script src="javascripts/js/ui/panel.js"></script>
+    <script src="javascripts/js/ui/contextmenu.js"></script>
+    <script src="javascripts/js/ui/path.js"></script>
+    <script src="javascripts/js/ui/stat.js"></script>
+    <script src="javascripts/js/ui/places.js"></script>
+
+    <!-- elfinder commands -->
+    <script src="javascripts/js/commands/back.js"></script>
+    <script src="javascripts/js/commands/forward.js"></script>
+    <script src="javascripts/js/commands/reload.js"></script>
+    <script src="javascripts/js/commands/up.js"></script>
+    <script src="javascripts/js/commands/home.js"></script>
+    <script src="javascripts/js/commands/copy.js"></script>
+    <script src="javascripts/js/commands/cut.js"></script>
+    <script src="javascripts/js/commands/paste.js"></script>
+    <script src="javascripts/js/commands/open.js"></script>
+    <script src="javascripts/js/commands/rm.js"></script>
+    <script src="javascripts/js/commands/info.js"></script>
+    <script src="javascripts/js/commands/duplicate.js"></script>
+    <script src="javascripts/js/commands/rename.js"></script>
+    <script src="javascripts/js/commands/help.js"></script>
+    <script src="javascripts/js/commands/getfile.js"></script>
+    <script src="javascripts/js/commands/mkdir.js"></script>
+    <script src="javascripts/js/commands/mkfile.js"></script>
+    <script src="javascripts/js/commands/upload.js"></script>
+    <script src="javascripts/js/commands/download.js"></script>
+    <script src="javascripts/js/commands/edit.js"></script>
+    <script src="javascripts/js/commands/quicklook.js"></script>
+    <script src="javascripts/js/commands/quicklook.plugins.js"></script>
+    <script src="javascripts/js/commands/extract.js"></script>
+    <script src="javascripts/js/commands/archive.js"></script>
+    <script src="javascripts/js/commands/search.js"></script>
+    <script src="javascripts/js/commands/view.js"></script>
+    <script src="javascripts/js/commands/resize.js"></script>
+    <script src="javascripts/js/commands/sort.js"></script>
+    <script src="javascripts/js/commands/netmount.js"></script>
+
+    <!-- elfinder languages -->
+    <script src="javascripts/js/i18n/elfinder.ar.js"></script>
+    <script src="javascripts/js/i18n/elfinder.bg.js"></script>
+    <script src="javascripts/js/i18n/elfinder.ca.js"></script>
+    <script src="javascripts/js/i18n/elfinder.cs.js"></script>
+    <script src="javascripts/js/i18n/elfinder.de.js"></script>
+    <script src="javascripts/js/i18n/elfinder.el.js"></script>
+    <script src="javascripts/js/i18n/elfinder.en.js"></script>
+    <script src="javascripts/js/i18n/elfinder.es.js"></script>
+    <script src="javascripts/js/i18n/elfinder.fa.js"></script>
+    <script src="javascripts/js/i18n/elfinder.fr.js"></script>
+    <script src="javascripts/js/i18n/elfinder.hu.js"></script>
+    <script src="javascripts/js/i18n/elfinder.it.js"></script>
+    <script src="javascripts/js/i18n/elfinder.jp.js"></script>
+    <script src="javascripts/js/i18n/elfinder.ko.js"></script>
+    <script src="javascripts/js/i18n/elfinder.nl.js"></script>
+    <script src="javascripts/js/i18n/elfinder.no.js"></script>
+    <script src="javascripts/js/i18n/elfinder.pl.js"></script>
+    <script src="javascripts/js/i18n/elfinder.pt_BR.js"></script>
+    <script src="javascripts/js/i18n/elfinder.ru.js"></script>
+    <script src="javascripts/js/i18n/elfinder.sl.js"></script>
+    <script src="javascripts/js/i18n/elfinder.sv.js"></script>
+    <script src="javascripts/js/i18n/elfinder.tr.js"></script>
+    <script src="javascripts/js/i18n/elfinder.zh_CN.js"></script>
+    <script src="javascripts/js/i18n/elfinder.zh_TW.js"></script>
+    <script src="javascripts/js/i18n/elfinder.vi.js"></script>
+
+    <!-- elfinder dialog -->
+    <script src="javascripts/js/jquery.dialogelfinder.js"></script>
+
+    <!-- elfinder 1.x connector API support -->
+    <script src="javascripts/js/proxy/elFinderSupportVer1.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#finder').elfinder({
+                // requestType : 'post',
+
+                url : 'connector.js',
+                // transport : new elFinderSupportVer1(),
+                // getFileCallback : function(files, fm) {
+                // 	console.log(files);
+                // },
+                handlers : {
+                    select : function(event, elfinderInstance) {
+                        var selected = event.data.selected;
+
+                        if (selected.length) {
+                            // console.log(elfinderInstance.file(selected[0]))
+                        }
+
+                    }
+                },
+                // handlers : {
+                // 	select : function(e) {
+                // 		console.log(e.data)
+                // 	}
+                // },
+                // onlyMimes : ['image', 'text/plain']
+                // sync : 20000,
+                lang : 'en',
+                customData : {answer : 42}
+                // requestType : 'POST',
+                // rememberLastDir : false,
+                // ui : ['tree', 'toolbar'],
+                // ui : ['toolbar', 'path', 'stat'],
+                // commands : [],
+                // commandsOptions : {
+                // 	edit : {
+                // 		mimes : ['text/plain', 'text/html', 'text/javascript'],
+                // 		editors : [
+                // 			{
+                // 				mimes : ['text/html'],
+                // 				load : function(textarea) {
+                // 					tinyMCE.execCommand("mceAddControl", true, textarea.id);
+                // 				},
+                // 				close : function(textarea, instance) {
+                // 					tinyMCE.execCommand('mceRemoveControl', false, textarea.id);
+                // 				},
+                // 				save : function(textarea, editor) {
+                // 					textarea.value = tinyMCE.get(textarea.id).selection.getContent({format : 'html'});
+                // 					tinyMCE.execCommand('mceRemoveControl', false, textarea.id);
+                // 				}
+                //
+                // 			}
+                // 		]
+                // 	}
+                // }
+                // uiOptions : {
+                // 	toolbar : [['help']]
+                // }
+            });
+        });
+    </script>
+
 </head>
 <body>
 <div class="row">
     <div class="col-xs-4"></div>
-    <div class="col-xs-4"><h2 id="title"><span class="glyphicon glyphicon-fire"></span> AiryDrive</h2></div>
+    <div class="col-xs-4"><h2 id="title">~ AiryDrive</h2></div>
     <div class="col-xs-4">
         <% if (user) { %>
             <div id="user"><%= user.email %> &nbsp;<a href="/logout" class="navbar-link">Sign out</a></div>
@@ -21,18 +194,14 @@
     </div>
 </div>
 <div id="container" class="container">
-
-    <!--div id="headline">
-        <h2><span class="glyphicon glyphicon-fire"></span> AiryDrive</h2>
-    </div-->
-
-    <div id="main" class="jumbotron text-center">
-        <div class="center-block" style="width:400px">
-            <h4>test</h4>
-
-        </div>
-	</div>
-
+    <div id="finder-block" class="center-block">
+        <% if (user) { %>
+            <div id="finder">finder <span>here</span></div>
+            <!--p>test</p-->
+        <% } else { %>
+            <p>Try to <a href="javascript:window.location.href=window.location.href">reload</a> page.</p>
+        <% } %>
+    </div>
     <div class="text-center">
 		<p>View on <a href="https://github.com/igi64/airydrive">GitHub</a>.</p>
 	</div>
