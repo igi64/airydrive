@@ -47,8 +47,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon(__dirname + '/public/favicon.ico'));
 app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.json()); //???
+// do not use!
+//app.use(express.urlencoded());
+// do not use!
+//apps.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(config.server.cookie_parser));
 app.use(express.session({
