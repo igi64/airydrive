@@ -2,23 +2,11 @@ var http = require('http');
 
 module.exports = function(app) {
 
-    app.get('/elfinder/*', function(req, res){
-        console.log(req.method);
-        req.on('data', function (chunk) {
-            reqChunks.push(chunk);
-        });
-
-        req.on('end', function () {
-            console.log(req.method);
-            redirectUrl(req, res);
-        });
-    });
-
     app.get('/connector.js', function(req, res){
         console.log("elFinder = " + JSON.stringify(req.query));
 
         req.on('data', function (chunk) {
-            reqChunks.push(chunk);
+            //req.reqChunks.push(chunk);
         });
 
         req.on('end', function () {
