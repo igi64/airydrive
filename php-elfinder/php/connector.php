@@ -247,7 +247,7 @@ $opts = array(
 			// 'startPath'  => '../files/test/',
 			//'URL'        => dirname($_SERVER['PHP_SELF']) . '/../files/',
 			// 'treeDeep'   => 3,
-			'alias'      => 'File system',
+			'alias'      => 'Public',
 			'mimeDetect' => 'internal',
 			'tmbPath'    => '.tmb',
 			'utf8fix'    => true,
@@ -271,95 +271,7 @@ $opts = array(
 			)
 			// 'uploadDeny' => array('application', 'text/xml')
 		),
-		// array(
-		// 	'driver'     => 'LocalFileSystem',
-		// 	'path'       => '../files2/',
-		// 	// 'URL'        => dirname($_SERVER['PHP_SELF']) . '/../files2/',
-		// 	'alias'      => 'File system',
-		// 	'mimeDetect' => 'internal',
-		// 	'tmbPath'    => '.tmb',
-		// 	'utf8fix'    => true,
-		// 	'tmbCrop'    => false,
-		// 	'startPath'  => '../files/test',
-		// 	// 'separator' => ':',
-		// 	'attributes' => array(
-		// 		array(
-		// 			'pattern' => '~/\.~',
-		// 			// 'pattern' => '/^\/\./',
-		// 			'read' => false,
-		// 			'write' => false,
-		// 			'hidden' => true,
-		// 			'locked' => false
-		// 		),
-		// 		array(
-		// 			'pattern' => '~/replace/.+png$~',
-		// 			// 'pattern' => '/^\/\./',
-		// 			'read' => false,
-		// 			'write' => false,
-		// 			// 'hidden' => true,
-		// 			'locked' => true
-		// 		)
-		// 	),
-		// 	// 'defaults' => array('read' => false, 'write' => true)
-		// ),
-		
-		/*array(
-		 	'driver' => 'FTP',
-		 	'host' => 'ftp.funet.fi',
-		 	'user' => 'anonymous',
-		 	'pass' => 'anonymous',
-		 	'path' => '/pub',
-		 	'tmpPath' => '../files/ftp',
-		 	'utf8fix' => true,
-		 	'attributes' => array(
-		 		array(
-		 			'pattern' => '~/\.~',
-		 			'read' => false,
-		 			'write' => false,
-		 			'hidden' => true,
-		 			'locked' => false
-		 		),
 
-		 	)
-		),*/
-		/*array(
-			'driver' => 'FTP',
-			'host' => 'work.std42.ru',
-			'user' => 'dio',
-			'pass' => 'wallrus',
-			'path' => '/',
-			'tmpPath' => '../files/ftp',
-		),*/
-		// array(
-		// 	'driver' => 'FTP',
-		// 	'host' => '10.0.1.3',
-		// 	'user' => 'frontrow',
-		// 	'pass' => 'frontrow',
-		// 	'path' => '/',
-		// 	'tmpPath' => '../files/ftp',
-		// ),
-		
-		// array(
-		// 	'driver'     => 'LocalFileSystem',
-		// 	'path'       => '../files2/',
-		// 	'URL'        => dirname($_SERVER['PHP_SELF']) . '/../files2/',
-		// 	'alias'      => 'Files',
-		// 	'mimeDetect' => 'internal',
-		// 	'tmbPath'    => '.tmb',
-		// 	// 'copyOverwrite' => false,
-		// 	'utf8fix'    => true,
-		// 	'attributes' => array(
-		// 		array(
-		// 			'pattern' => '~/\.~',
-		// 			// 'pattern' => '/^\/\./',
-		// 			// 'read' => false,
-		// 			// 'write' => false,
-		// 			'hidden' => true,
-		// 			'locked' => false
-		// 		),
-		// 	)
-		// ),
-		
 		array(
 			'driver' => 'MySQL',
 		 	'path' => 0,
@@ -370,10 +282,6 @@ $opts = array(
 		 	'pass' => 'apassword',
 		 	'db' => 'airydrive',
             'files_table' => 'vw_folder_file',
-            /*'user' => 'elfinder',
-            'pass' => 'apassword',
-            'db' => 'elfinder',
-            'files_table' => 'elfinder_file',*/
 		 	// 'accessControl' => 'access',
 		 	// 'separator' => ':',
 		 	'tmbCrop'         => true,
@@ -397,49 +305,11 @@ $opts = array(
 		 	// 	)
 		 	// )
 
-		)/*,
-        array(
-            'driver' => 'MySQL',
-            'path' => 1,
-            // 'treeDeep' => 2,
-            // 'socket'          => '/opt/local/var/run/mysql5/mysqld.sock',
-            'host'   => '192.168.100.200',
-            'user' => 'elfinder',
-            'pass' => '41743182',
-            'db' => 'elfinder',
-            'user_id' => 1,
-            // 'accessControl' => 'access',
-            // 'separator' => ':',
-            'tmbCrop'         => true,
-            // thumbnails background color (hex #rrggbb or 'transparent')
-            'tmbBgColor'      => '#000000',
-            'files_table' => 'elfinder_file2',
-            // 'imgLib' => 'imagick',
-            // 'uploadOverwrite' => false,
-            // 'copyTo' => false,
-            // 'URL'    => 'http://localhost/git/elfinder',
-            'tmpPath' => '../filesdb/tmp',
-            'tmbPath' => '../filesdb/tmb',
-            'tmbURL' => dirname($_SERVER['PHP_SELF']) . '/../filesdb/tmb/',
-            // 'attributes' => array(
-            // 	array(),
-            // 	array(
-            // 		'pattern' => '/\.jpg$/',
-            // 		'read' => false,
-            // 		'write' => false,
-            // 		'locked' => true,
-            // 		'hidden' => true
-            // 	)
-            // )
-
-        )*/
+		)
 	)
 		
 );
 
-
-
-// sleep(3);
 header('Access-Control-Allow-Origin: *');
 
 $url = (!empty($_SERVER['HTTP'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
@@ -448,9 +318,8 @@ if (isset($_GET['user_id'])) {
 	$user_id = $_GET['user_id'];
 }
 
-// development only
 if (empty($user_id)) {
-    $user_id = '1';
+    $user_id = '-1'; // '1' for test
 };
 
 if (!empty($user_id)) {

@@ -18,10 +18,10 @@ module.exports = function(app) {
     }
 
     if (req.url.indexOf('user_id=') == -1) {
-        if (phpUrl.indexOf('?') == -1)
-          phpUrl += '?user_id=' + user_id;
-        else
-          phpUrl += '&user_id=' + user_id;
+      if (phpUrl.indexOf('?') == -1)
+        phpUrl += '?user_id=' + user_id;
+      else
+        phpUrl += '&user_id=' + user_id;
     } else {
       res.write('{"error" : ["errAccess"]}', 'utf8');
       res.end();
