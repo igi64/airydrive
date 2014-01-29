@@ -96,7 +96,7 @@ INSERT INTO `tb_file`
 
 INSERT INTO `tb_folder_link`
 (`id`,   `user_id`, `parent_id`, `folder_id`, `name`,        `mtime`,      `read`, `write`) VALUES 
-('1001', '1',        NULL,       '1',         'My Disk',     '1383930510', '1',    '1');
+('1001', '1',        NULL,       '1',         'Shared',     '1383930510', '1',    '1');
 INSERT INTO `tb_folder_link`
 (`id`,   `user_id`, `parent_id`, `folder_id`, `name`,        `mtime`,      `read`, `write`) VALUES 
 ('1002', '1',       '1',         '2',         'dir1',        '1383930520', '1',    '1');
