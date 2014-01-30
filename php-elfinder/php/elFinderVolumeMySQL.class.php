@@ -120,6 +120,25 @@ class elFinderVolumeMySQL extends elFinderVolumeDriver {
 			return false;
 		}
 
+        /*$sql = 'SELECT id FROM tb_folder_link WHERE user_id="'.$this->options['user_id'].'" AND parent_id is NULL';
+        if (!(($res = $this->query($sql)) && $row = $res->fetch_assoc())) {
+            $sql = 'INSERT INTO %s (`owner_id`, `mtime`) VALUES ("%s", %d)';
+            $sql = sprintf($sql, 'tb_folder', $this->options['user_id'], time());
+            if (!($this->query($sql) && $this->db->affected_rows > 0)) {
+                throw new Exception($this->db->error);
+            }
+
+            $inserted_id = $this->db->insert_id;
+            $user_id = $this->options['user_id'];
+            $name = 'Shared';
+
+            $sql = 'INSERT INTO %s (`user_id`, `folder_id`, `name`, `read`, `write`) VALUES ("%s", "%s", "%s", "%d", "%d")';
+            $sql = sprintf($sql, 'tb_folder_link', $user_id, $inserted_id, $this->db->real_escape_string($name), $this->defaults['read'], $this->defaults['write']);
+            if (!($this->query($sql) && $this->db->affected_rows > 0)) {
+                throw new Exception($this->db->error);
+            }
+        }*/
+
         $sql = 'SELECT MIN(folder_id) AS folder_id FROM tb_folder_link WHERE user_id="'.$this->options['user_id'].'"';
 
         if (($res = $this->query($sql)) && $row = $res->fetch_assoc()) {
