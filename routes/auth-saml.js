@@ -1,3 +1,4 @@
+var express = require('express');
 var passport = require('passport');
 var SamlStrategy = require('passport-saml').Strategy;
 
@@ -28,9 +29,14 @@ module.exports = function(app) {
 
         // find or create the user based on their email address
         app.User.findOrCreate(null, null, userInfo, 'saml', function(err, user) {
-          if (err)
+          if (err) {
             console.log(err);
-          done(err, user);
+            done(err, user);
+          } else {
+            app.Data.setup(app.config.data.rootName, user, function(err, user) {
+              done(err, user);
+            });
+          }
         });
 
       });
@@ -43,7 +49,7 @@ module.exports = function(app) {
       res.redirect('/');
     });
 
-  app.post('/auth/saml/login/callback',
+  app.post('/auth/saml/login/callback', express.urlencoded(),
     passport.authenticate('saml', { failureRedirect: '/login', failureFlash: true }),
     function(req, res) {
       res.redirect('/');

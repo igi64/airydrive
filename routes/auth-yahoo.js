@@ -25,9 +25,14 @@ module.exports = function(app) {
 
         // find or create the user based on their email address
         app.User.findOrCreate(null, null, userInfo, 'yahoo', function(err, user) {
-          if (err)
+          if (err) {
             console.log(err);
-          done(err, user);
+            done(err, user);
+          } else {
+            app.Data.setup(app.config.data.rootName, user, function(err, user) {
+              done(err, user);
+            });
+          }
         });
 
       });

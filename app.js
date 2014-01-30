@@ -9,9 +9,11 @@ var mysql = require('mysql').createPool(config.mysql);
 var MySQLStore = require('connect-mysql')(express);
 var UserStore = require("./user.js");
 var OidcStore = require("./oidc.js");
+var DataStore = require("./data.js");
 
-var User = new UserStore({ client: mysql, tables: ['tb_user', 'tb_user_info', 'tb_oidc'] });
+var User = new UserStore({ client: mysql, tables: ['tb_user', 'tb_user_info', 'tb_oidc', 'tb_folder_link'] });
 var Oidc = new OidcStore({ client: mysql, tables: ['tb_oidc', 'tb_user'] });
+var Data = new DataStore({ client: mysql, tables: ['tb_folder', 'tb_folder_link'] });
 
 var ssl_options = new Object();
 
@@ -40,6 +42,7 @@ var passport = require('passport');
 app.config = config;
 app.User = User;
 app.Oidc = Oidc;
+app.Data = Data;
 
 // all environments
 app.set('port', process.env.PORT || (config.server.secure ? config.server.https_port : config.server.http_port));
@@ -47,11 +50,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon(__dirname + '/public/favicon.ico'));
 app.use(express.logger('dev'));
-app.use(express.json()); //???
-// do not use!
-//app.use(express.urlencoded());
-// do not use!
-//apps.use(express.bodyParser());
+app.use(express.json());
 app.use(express.methodOverride());
 app.use(express.cookieParser(config.server.cookie_parser));
 app.use(express.session({

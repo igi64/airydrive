@@ -19,5 +19,8 @@ exports.config = {
   },
   oidc: {
     client_name: 'AiryDrive'
+  },
+  data: {
+    rootName: 'igi64'
   }
 }
