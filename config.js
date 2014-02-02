@@ -17,6 +17,16 @@ exports.config = {
     password: 'apassword',
     database: 'airydrive'
   },
+  PHP: {
+    secure: false,
+    host: 'localhost',
+    http_port: 8080,
+    https_port: 4432,
+    elfinder_connector: '/elfinder/php/connector.php',
+    base_url: function() {
+      return (this.secure ? 'https://' : 'http://') + this.host + ':' + (this.secure ? this.https_port : this.http_port);
+    }
+  },
   oidc: {
     client_name: 'AiryDrive'
   },

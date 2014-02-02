@@ -4,8 +4,8 @@ request = require('request');
 module.exports = function(app) {
 
   app.all('/connector.js', function(req, res){
-    var PHP_HOST = 'http://localhost:8080';
-    var phpUrl = req.url.replace('/connector.js', '/elfinder/php/connector.php');
+    var PHP_HOST = app.config.PHP.base_url();
+    var phpUrl = req.url.replace('/connector.js', app.config.PHP.elfinder_connector);
 
     var user_id = -1;
 
