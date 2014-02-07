@@ -43,7 +43,8 @@ $.fn.elfinderdialog = function(opts) {
 				.draggable({ handle : '.ui-dialog-titlebar',
 					     containment : 'document' })
 				.css({
-					width  : opts.width,
+          width  : opts.width,
+         'max-width'  : opts.max_width,
 					height : opts.height
 				})
 				.mousedown(function(e) {
@@ -182,7 +183,8 @@ $.fn.elfinderdialog = function(opts) {
 		buttonset.children().length && dialog.append(buttonpane);
 		if (opts.resizable && $.fn.resizable) {
 			dialog.resizable({
-					minWidth   : opts.minWidth,
+          minWidth   : opts.minWidth,
+          maxWidth   : opts.maxWidth,
 					minHeight  : opts.minHeight,
 					alsoResize : this
 				});
@@ -209,6 +211,7 @@ $.fn.elfinderdialog.defaults = {
 	position  : null,
 	width     : 320,
 	height    : 'auto',
-	minWidth  : 200,
+  minWidth  : 200,
+  //maxWidth  : 800,
 	minHeight : 110
 }

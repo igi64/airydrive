@@ -160,7 +160,7 @@
 .elfinder-info-title strong { display:block; padding:.3em 0 .5em 0; }
 
 .elfinder-info-tb {
-	min-width:200px;
+    min-width:450px;
 	border:0 solid;
 	margin:1em .2em 1em .2em;
 }
