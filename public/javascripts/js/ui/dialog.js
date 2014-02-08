@@ -44,8 +44,9 @@ $.fn.elfinderdialog = function(opts) {
 					     containment : 'document' })
 				.css({
           width  : opts.width,
-         'max-width'  : opts.max_width,
-					height : opts.height
+          'max-width'  : opts.max_width,
+					height : opts.height//,
+          //'min-height'  : opts.min_height
 				})
 				.mousedown(function(e) {
 					e.stopPropagation();
@@ -212,6 +213,5 @@ $.fn.elfinderdialog.defaults = {
 	width     : 320,
 	height    : 'auto',
   minWidth  : 200,
-  //maxWidth  : 800,
 	minHeight : 110
 }

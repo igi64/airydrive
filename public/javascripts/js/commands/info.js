@@ -29,10 +29,10 @@ elFinder.prototype.commands.info = function() {
 		};
 
   var shareToContent =
-    '<div id="wrapper">' +
+    '<div id="wrapper" style="min-height:200px">' +
       '<p></p>' +
       '<div class="control-group">' +
-      '<label for="select-to">Share to:</label>' +
+      '<label for="select-to">Shared to:</label>' +
       '<select id="select-to" class="contacts" placeholder="Pick some people..."></select>' +
       '</div>' +
       '<p></p>' +
@@ -79,10 +79,13 @@ elFinder.prototype.commands.info = function() {
 			v       = '{value}',
 			opts    = {
 				title : this.title,
+        resizable : false,
         modal : true,
         width : 'auto',
         max_width : '670px',
         maxWidth : '670',
+        //min_height : '170px',
+        //minHeight : '170',
     close : function() { $(this).elfinderdialog('destroy'); }
 			},
 			count = [],
@@ -109,8 +112,10 @@ elFinder.prototype.commands.info = function() {
 
     function selectize(sel){
       sel.selectize({
+        plugins: ['remove_button', 'drag_drop'],
         persist: false,
-        maxItems: null,
+        maxItems: 20,
+        //maxOptions: 3,
         valueField: 'email',
         labelField: 'name',
         searchField: ['first_name', 'last_name', 'email'],
@@ -122,23 +127,29 @@ elFinder.prototype.commands.info = function() {
           {email: 'nikola@tesla.com', first_name: 'Nikola', last_name: 'Tesla'},
           {email: 'brian@thirdroute.com', first_name: 'Brian', last_name: 'Reavis'},
           {email: 'izboran@gmail.com', first_name: 'Igor', last_name: 'Zboran'},
+          {email: 'a1@gmail.com', first_name: 'A1', last_name: 'Test1'},
+          {email: 'a2@gmail.com', first_name: 'A1', last_name: 'Test2'},
+          {email: 'a3@gmail.com', first_name: 'A3', last_name: 'Test3'},
+          {email: 'a4@gmail.com', first_name: 'A4', last_name: 'Test4'},
+          {email: 'a5@gmail.com', first_name: 'A5', last_name: 'Test5'},
+          {email: 'a6@gmail.com', first_name: 'A6', last_name: 'Test6'},
           {email: 'someone@gmail.com'}
         ],
         render: {
           item: function(item, escape) {
             var name = formatName(item);
             return '<div>' +
-              (name ? '<span class="name">' + escape(name) + '</span>' : '') +
-              (item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
+              (name ? '<span class="sel-name">' + escape(name) + ' ' + '</span>' : '') +
+              (item.email ? '<span class="sel-email">' + escape(item.email) + '</span>' : '') +
               '</div>';
           },
           option: function(item, escape) {
             var name = formatName(item);
             var label = name || item.email;
-            var caption = name ? item.email : null;
+            var caption = name ? ' ' + item.email : null;
             return '<div>' +
-              '<span class="label">' + escape(label) + '</span>' +
-              (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+              '<span class="sel-label">' + escape(label) + '</span>' +
+              (caption ? '<span class="sel-caption">' + escape(caption) + '</span>' : '') +
               '</div>';
           }
         },
