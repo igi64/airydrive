@@ -196,11 +196,12 @@
     min-width:450px;
     border:0 solid;
     margin:1em .2em 1em .2em;
+    min-height: 40px;
 }
 
 .elfinder-share-tb td { white-space:nowrap; padding:2px; }
 
-.elfinder-share-tb tr td:first-child { text-align:right;  }
+.elfinder-share-tb tr td:first-child { text-align:right; width:30px; }
 
 .elfinder-share-tb span { float:left;}
 .elfinder-share-tb a { outline: none; text-decoration:underline; }
@@ -212,6 +213,8 @@
     background: url("../img/spinner-mini.gif") center center no-repeat;
     margin:0 5px;
 }
+
+/*********************** NETMOUNT DIALOG **************************/
 
 .elfinder-netmount-tb { margin:0 auto; }
 .elfinder-netmount-tb input { border:1px solid #ccc; }

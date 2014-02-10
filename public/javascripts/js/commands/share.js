@@ -77,6 +77,12 @@ elFinder.prototype.commands.share = function() {
       view    = tpl.main,
       l       = '{label}',
       v       = '{value}',
+      save = function() {
+        alert("Saved!");
+      },
+      cancel = function() {
+        $(this).elfinderdialog('close');
+      },
       opts    = {
         title : this.title,
         resizable : false,
@@ -86,6 +92,7 @@ elFinder.prototype.commands.share = function() {
         maxWidth : '670',
         //min_height : '170px',
         //minHeight : '170',
+        buttons : {},
         close : function() { $(this).elfinderdialog('destroy'); }
       },
       count = [],
@@ -114,6 +121,7 @@ elFinder.prototype.commands.share = function() {
       sel.selectize({
         plugins: ['remove_button', 'drag_drop'],
         persist: false,
+        //openOnFocus: false,
         maxItems: 20,
         //maxOptions: 3,
         valueField: 'email',
@@ -124,16 +132,16 @@ elFinder.prototype.commands.share = function() {
           {field: 'last_name', direction: 'asc'}
         ],
         options: [
-          {email: 'nikola@tesla.com', first_name: 'Nikola', last_name: 'Tesla'},
-          {email: 'brian@thirdroute.com', first_name: 'Brian', last_name: 'Reavis'},
-          {email: 'izboran@gmail.com', first_name: 'Igor', last_name: 'Zboran'},
-          {email: 'a1@gmail.com', first_name: 'A1', last_name: 'Test1'},
-          {email: 'a2@gmail.com', first_name: 'A1', last_name: 'Test2'},
-          {email: 'a3@gmail.com', first_name: 'A3', last_name: 'Test3'},
-          {email: 'a4@gmail.com', first_name: 'A4', last_name: 'Test4'},
-          {email: 'a5@gmail.com', first_name: 'A5', last_name: 'Test5'},
-          {email: 'a6@gmail.com', first_name: 'A6', last_name: 'Test6'},
-          {email: 'someone@gmail.com'}
+          {id:  1, email: 'nikola@tesla.com', first_name: 'Nikola', last_name: 'Tesla'},
+          {id:  2, email: 'brian@thirdroute.com', first_name: 'Brian', last_name: 'Reavis'},
+          {id:  3, email: 'izboran@gmail.com', first_name: 'Igor', last_name: 'Zboran'},
+          {id:  4, email: 'a1@gmail.com', first_name: 'A1', last_name: 'Test1'},
+          {id:  5, email: 'a2@gmail.com', first_name: 'A1', last_name: 'Test2'},
+          {id:  6, email: 'a3@gmail.com', first_name: 'A3', last_name: 'Test3'},
+          {id:  7, email: 'a4@gmail.com', first_name: 'A4', last_name: 'Test4'},
+          {id:  8, email: 'a5@gmail.com', first_name: 'A5', last_name: 'Test5'},
+          {id:  9, email: 'a6@gmail.com', first_name: 'A6', last_name: 'Test6'},
+          {id: 10, email: 'someone@gmail.com'}
         ],
         render: {
           item: function(item, escape) {
@@ -165,6 +173,7 @@ elFinder.prototype.commands.share = function() {
             var last_name  = name.substring(pos_space + 1);
 
             return {
+              id: -1,
               email: match[2],
               first_name: first_name,
               last_name: last_name
@@ -172,6 +181,29 @@ elFinder.prototype.commands.share = function() {
           }
           alert('Invalid email address.');
           return false;
+        },
+        load: function(query, callback) {
+          if (!query.length) return callback();
+          $.ajax({
+            url: 'http://api.rottentomatoes.com/api/public/v1.0/movies.json',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+              q: query,
+              page_limit: 10,
+              apikey: '3qqmdwbuswut94jv4eua3j85'
+            },
+            error: function() {
+              callback();
+            },
+            success: function(res) {
+              console.log(res.movies);
+              callback(res.movies);
+            }
+          });
+        },
+        onInitialize: function() {
+          //
         }
       });
     }
@@ -196,48 +228,6 @@ elFinder.prototype.commands.share = function() {
       }
 
       content.push(row.replace(l, msg.size).replace(v, size));
-      file.alias && content.push(row.replace(l, msg.aliasfor).replace(v, file.alias));
-      content.push(row.replace(l, msg.path).replace(v, fm.escape(fm.path(file.hash, true))));
-      if (file.read) {
-        var href;
-        if (o.nullUrlDirLinkSelf && file.mime == 'directory' && file.url === null) {
-          var loc = window.location;
-          href = loc.pathname + loc.search + '#elf_' + file.hash;
-        } else {
-          href = fm.url(file.hash);
-        }
-        content.push(row.replace(l, msg.link).replace(v,  '<a href="'+href+'" target="_blank">'+file.name+'</a>'));
-      }
-
-      if (file.dim) { // old api
-        content.push(row.replace(l, msg.dim).replace(v, file.dim));
-      } else if (file.mime.indexOf('image') !== -1) {
-        if (file.width && file.height) {
-          content.push(row.replace(l, msg.dim).replace(v, file.width+'x'+file.height));
-        } else {
-          content.push(row.replace(l, msg.dim).replace(v, tpl.spinner.replace('{text}', msg.calc)));
-          fm.request({
-            data : {cmd : 'dim', target : file.hash},
-            preventDefault : true
-          })
-            .fail(function() {
-              replSpinner(msg.unknown);
-            })
-            .done(function(data) {
-              replSpinner(data.dim || msg.unknown);
-              if (data.dim) {
-                var dim = data.dim.split('x');
-                var rfile = fm.file(file.hash);
-                rfile.width = dim[0];
-                rfile.height = dim[1];
-              }
-            });
-        }
-      }
-
-      content.push(row.replace(l, msg.modify).replace(v, fm.formatDate(file)));
-      content.push(row.replace(l, msg.perms).replace(v, fm.formatPermissions(file)));
-      content.push(row.replace(l, msg.locked).replace(v, file.locked ? msg.yes : msg.no));
 
     } else {
       view  = view.replace('{class}', 'elfinder-cwd-icon-group');
@@ -266,10 +256,16 @@ elFinder.prototype.commands.share = function() {
 
     view = view.replace('{title}', title).replace('{content}', content.join(''));
 
+    opts.buttons[fm.i18n('Save')]   = save;
+    opts.buttons[fm.i18n('Cancel')] = cancel;
+
     dialog = fm.dialog(view, opts);
-    dialog.attr('id', id)
+
+    dialog.attr('id', id);
 
     selectize($('#select-to'));
+
+    $('.ui-dialog-buttonset').find('.ui-button:last').focus();
 
     // load thumbnail
     if (tmb) {
