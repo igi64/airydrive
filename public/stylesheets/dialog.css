@@ -160,7 +160,7 @@
 .elfinder-info-title strong { display:block; padding:.3em 0 .5em 0; }
 
 .elfinder-info-tb {
-    min-width:450px;
+    min-width:200px;
 	border:0 solid;
 	margin:1em .2em 1em .2em;
 }
@@ -178,6 +178,39 @@
 	float:left;
 	background: url("../img/spinner-mini.gif") center center no-repeat;
 	margin:0 5px; 
+}
+
+/*********************** SHARE DIALOG **************************/
+
+
+.elfinder-share-title .elfinder-cwd-icon {
+    float:left;
+    width:48px;
+    height:48px;
+    margin-right:1em;
+}
+
+.elfinder-share-title strong { display:block; padding:.3em 0 .5em 0; }
+
+.elfinder-share-tb {
+    min-width:450px;
+    border:0 solid;
+    margin:1em .2em 1em .2em;
+}
+
+.elfinder-share-tb td { white-space:nowrap; padding:2px; }
+
+.elfinder-share-tb tr td:first-child { text-align:right;  }
+
+.elfinder-share-tb span { float:left;}
+.elfinder-share-tb a { outline: none; text-decoration:underline; }
+.elfinder-share-tb a:hover { text-decoration:none; }
+.elfinder-share-spinner {
+    width:14px;
+    height:14px;
+    float:left;
+    background: url("../img/spinner-mini.gif") center center no-repeat;
+    margin:0 5px;
 }
 
 .elfinder-netmount-tb { margin:0 auto; }
