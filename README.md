@@ -14,6 +14,6 @@ Cross domain data sharing and exchange.
 5. Timeline
 
 ###Delegation scenario:  
-Authorizing server applications on behalf of a user to access a remote resource across domains.  
+Authorizing a server application on behalf of a user to access a remote resource across domains.  
 
 Database model: https://github.com/igi64/airydrive/wiki/Database-model  
