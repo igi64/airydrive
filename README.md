@@ -1,7 +1,7 @@
 ~ AiryDrive
 ===========
 
-The Multi-Party Cloud Storage built around OAuth 2.0 standards [OpenID Connect](http://openid.net/connect) (OIDC) and [User Managed Access](http://en.wikipedia.org/wiki/User-Managed_Access) (UMA).
+The Multi-Party Cloud Storage built around OAuth 2.0 standards [OpenID Connect](http://openid.net/connect) (OIDC) and [User-Managed Access](http://en.wikipedia.org/wiki/User-Managed_Access) (UMA).
 
 ###Main feature:   
 Cross domain data sharing and exchange.  
