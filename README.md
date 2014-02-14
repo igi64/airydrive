@@ -16,4 +16,9 @@ Cross domain data sharing and exchange.
 ###Delegation scenario:  
 Authorizing a server application on behalf of a user to access a remote resource across domains.  
 
+###Use case:  
+People-centric Product Lifecycle Management.   
+
+Scenario: Data sharing across a multi-site engineering team.
+
 Database model: https://github.com/igi64/airydrive/wiki/Database-model  
