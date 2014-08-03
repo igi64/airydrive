@@ -1,6 +1,8 @@
 ~ AiryDrive
 ===========
 
+(DEPRECATED - pls go to (Drop.Camp)[https://github.com/igi64/Drop.Camp])
+
 The Cross-Domain Cloud Storage built around OAuth 2.0 standards [OpenID Connect](http://openid.net/connect) (OIDC) and [User-Managed Access](http://en.wikipedia.org/wiki/User-Managed_Access) (UMA).
 
 The project development has been temporarily moved to the [AiryHub](https://github.com/igi64/airyhub) repository!
