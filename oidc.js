@@ -49,7 +49,7 @@ OidcStore.prototype.saveConfig = function(prov, reg, done) {
 OidcStore.prototype.loadConfigByIssuer = function(issuer, done) {
   if (issuer) {
     this.query(function(connection, release) {
-    connection.query('SELECT * FROM `' + Tables[0] + '` WHERE issuer = ?', [issuer], function (err, result) {
+    connection.query('SELECT * FROM `' + Tables[0] + '` WHERE TRIM(TRAILING "/" FROM issuer) = TRIM(TRAILING "/" FROM ?)', [issuer], function (err, result) {
       if (result) {
         var provider = result && result[0] && result[0].provider ? JSON.parse(result[0].provider) : null;
         var registration = result && result[0] && result[0].registration ? JSON.parse(result[0].registration) : null;
